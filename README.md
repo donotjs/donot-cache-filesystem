@@ -1,5 +1,5 @@
-smart-static-mem-cache
-====================
+smart-static-js-cache
+=====================
 
 File system cache engine for [smart-static](https://github.com/trenskow/smart-static.js).
 
