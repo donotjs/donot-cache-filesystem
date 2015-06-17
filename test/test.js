@@ -24,7 +24,7 @@ describe('cache', function() {
   });
 
   it ('should come back with no error when setting value', function(done) {
-    fsCache.set('test', { created: new Date() }, function(err) {
+    fsCache.set('test', { modified: new Date() }, function(err) {
       expect(err).to.be.undefined;
       done();
     });
@@ -34,7 +34,7 @@ describe('cache', function() {
     fsCache.get('test', function(err, cache) {
       expect(err).to.be.null;
       expect(cache).to.be.an('object');
-      expect(cache.created).to.be.instanceof(Date);
+      expect(cache.modified).to.be.instanceof(Date);
       done();
     });
   });
