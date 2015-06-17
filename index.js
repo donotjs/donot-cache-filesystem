@@ -39,8 +39,8 @@ exports = module.exports = function(cacheDir) {
         cache = cache || {};
 
         // Convert date string to Date.
-        if (cache[file] && cache[file].created) {
-          cache[file].created = new Date(cache[file].created);
+        if (cache[file] && cache[file].modified) {
+          cache[file].modified = new Date(cache[file].modified);
         }
 
         // Return content
