@@ -1,5 +1,7 @@
-smart-static-js-cache
+smart-static-fs-cache
 =====================
+
+[![Build Status](https://travis-ci.org/trenskow/smart-static-fs-cache.svg?branch=master)](https://travis-ci.org/trenskow/smart-static-fs-cache)
 
 File system cache engine for [smart-static](https://github.com/trenskow/smart-static.js).
 
