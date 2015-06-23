@@ -1,12 +1,12 @@
 {
   "name": "smart-static-fs-cache",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "File system cache engine for smart-static.",
   "author": "Kristian Trenskow <trenskow@me.com>",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/trenskow/smart-static-fs-cache.js"
+    "url": "https://github.com/trenskow/smart-static-fs-cache"
   },
   "dependencies": {
     "mkdirp": "^0.5.1"
