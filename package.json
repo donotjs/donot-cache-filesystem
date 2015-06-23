@@ -1,6 +1,6 @@
 {
   "name": "smart-static-fs-cache",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "description": "File system cache engine for smart-static.",
   "author": "Kristian Trenskow <trenskow@me.com>",
   "main": "index.js",

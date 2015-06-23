@@ -4,7 +4,9 @@ var expect = require('chai').expect;
 var rimraf = require('rimraf');
 
 var cacheDir = path.normalize(os.tmpdir() + '/' + Math.random().toString(36).substr(2) + '/');
-var fsCache = require('../')(cacheDir);
+var fsCache = require('../')(cacheDir, {
+  createDirectory: true
+});
 
 describe('cache', function() {
 
@@ -13,6 +15,12 @@ describe('cache', function() {
       if (err) throw err;
       done();
     });
+  });
+
+  it ('should throw an error if createDirectory is false and directory does not exist', function() {
+    expect(function() {
+      fsCache(__dirname + '/non-exist');
+    }).to.throw(Error);
   });
 
   it ('should come back with nothing when cache does not exist', function(done) {

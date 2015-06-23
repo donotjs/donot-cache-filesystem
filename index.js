@@ -2,9 +2,17 @@ var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
 
-exports = module.exports = function(cacheDir) {
+exports = module.exports = function(cacheDir, opt) {
 
   var cacheFile = path.normalize(cacheDir + '/cache.json');
+
+  if ((opt || {}).createDirectory === true) {
+    mkdirp.sync(cacheDir);
+  }
+
+  if (!fs.existsSync(cacheDir)) {
+    throw new Error('Cache directory does not exist.');
+  }
 
   function readCache(cb) {
     // First check if file exists
@@ -51,36 +59,30 @@ exports = module.exports = function(cacheDir) {
     },
     set: function(file, data, cb) {
 
-      // Make sure directory exists.
-      mkdirp(cacheDir, function(err) {
+      // Read file
+      readCache(function(err, cache) {
         if (err) return cb(err);
 
-        // Read file
-        readCache(function(err, cache) {
+        // Create cache if non-existing
+        cache = cache || {};
+
+        // Add data
+        cache[file] = data;
+
+        // To JSON
+        var json;
+        try {
+          json = JSON.stringify(cache);
+        } catch(err) {
+          return cb(err);
+        }
+
+        // Write JSON to file
+        fs.writeFile(cacheFile, json, { encoding: 'utf8' }, function(err) {
           if (err) return cb(err);
 
-          // Create cache if non-existing
-          cache = cache || {};
-
-          // Add data
-          cache[file] = data;
-
-          // To JSON
-          var json;
-          try {
-            json = JSON.stringify(cache);
-          } catch(err) {
-            return cb(err);
-          }
-
-          // Write JSON to file
-          fs.writeFile(cacheFile, json, { encoding: 'utf8' }, function(err) {
-            if (err) return cb(err);
-
-            // Return
-            cb();
-          });
-
+          // Return
+          cb();
         });
 
       });
