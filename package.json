@@ -6,7 +6,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/trenskow/smart-static-fs-cache"
+    "url": "https://github.com/donotjs/smart-static-fs-cache"
   },
   "dependencies": {
     "mkdirp": "^0.5.1"

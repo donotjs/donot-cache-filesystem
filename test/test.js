@@ -1,3 +1,7 @@
+/*jshint expr: true*/
+
+'use strict';
+
 var os = require('os');
 var path = require('path');
 var expect = require('chai').expect;

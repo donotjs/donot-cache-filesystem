@@ -27,8 +27,8 @@ exports = module.exports = function(cacheDir, opt) {
         var cache;
         try {
           cache = JSON.parse(data);
-        } catch (err) {
-          return cb(err);
+        } catch (e) {
+          return cb(e);
         }
 
         cb(null, cache);
