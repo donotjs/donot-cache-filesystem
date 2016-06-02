@@ -13,8 +13,9 @@
     "mkdirp": "^0.5.1"
   },
   "devDependencies": {
-    "mocha": "^2.2.5",
     "chai": "^3.0.0",
+    "chai-as-promised": "^5.3.0",
+    "mocha": "^2.2.5",
     "rimraf": "^2.4.0"
   },
   "scripts": {
