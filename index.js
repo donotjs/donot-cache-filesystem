@@ -1,10 +1,10 @@
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var mkdirp = require('mkdirp');
+const fs = require('fs');
+const path = require('path');
+const mkdirp = require('mkdirp');
 
-var Cache = require('@donotjs/donot-cache');
+const Cache = require('@donotjs/donot-cache');
 
 class FileSystemCache extends Cache {
 
@@ -79,7 +79,7 @@ class FileSystemCache extends Cache {
 
 				// Add data
 				cache[filename] = data;
-				
+
 				this._writeCache(cache).then(resolved, rejected);
 
 			}, rejected);

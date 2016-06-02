@@ -2,14 +2,14 @@
 
 'use strict';
 
-var os = require('os');
-var path = require('path');
-var expect = require('chai').expect;
-var rimraf = require('rimraf');
-var FileSystemCache = require('../');
+const os = require('os');
+const path = require('path');
+const expect = require('chai').expect;
+const rimraf = require('rimraf');
+const FileSystemCache = require('../');
 
-var cacheDir = path.normalize(os.tmpdir() + '/' + Math.random().toString(36).substr(2) + '/');
-var fsCache = new FileSystemCache(cacheDir, {
+const cacheDir = path.normalize(os.tmpdir() + '/' + Math.random().toString(36).substr(2) + '/');
+const fsCache = new FileSystemCache(cacheDir, {
   createDirectory: true
 });
 
