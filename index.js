@@ -4,92 +4,98 @@ var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
 
-exports = module.exports = function(cacheDir, opt) {
+var Cache = require('@donotjs/donot-cache');
 
-  var cacheFile = path.normalize(cacheDir + '/cache.json');
+class FileSystemCache extends Cache {
 
-  if ((opt || {}).createDirectory === true) {
-    mkdirp.sync(cacheDir);
-  }
+	constructor(cacheDir, opt) {
+		super();
 
-  if (!fs.existsSync(cacheDir)) {
-    throw new Error('Cache directory does not exist.');
-  }
+		this.cacheFile = path.normalize(cacheDir + '/cache.json');
 
-  function readCache(cb) {
-    // First check if file exists
-    fs.exists(cacheFile, function(exists) {
-      if (!exists) return cb();
+		if ((opt || {}).createDirectory === true) {
+			mkdirp.sync(cacheDir);
+		}
 
-      // Read file content.
-      fs.readFile(cacheFile, { encoding: 'utf8' }, function(err, data) {
-        if (err) return cb(err);
+		if (!fs.existsSync(cacheDir)) {
+			throw new Error('Cache directory does not exist.');
+		}
+	}
 
-        // Parse JSON
-        var cache;
-        try {
-          cache = JSON.parse(data);
-        } catch (e) {
-          return cb(e);
-        }
+	_readCache() {
+		return new Promise((resolved, rejected) => {
+			// First check if file exists
+			fs.exists(this.cacheFile, (exists) => {
+				if (!exists) return resolved({});
 
-        cb(null, cache);
+				// Read file content.
+				fs.readFile(this.cacheFile, { encoding: 'utf8' }, (err, data) => {
+					if (err) return rejected(err);
+					resolved(JSON.parse(data) || {});
+				});
 
-      });
-    });
-  }
+			});
+		});
+	}
 
-  return {
-    get: function(file, cb) {
+	_writeCache(cache) {
+		return new Promise((resolved, rejected) => {
 
-      readCache(function(err, cache) {
-        if (err) return cb(err);
+			// Write JSON to file
+			fs.writeFile(this.cacheFile, JSON.stringify(cache), { encoding: 'utf8' }, (err) => {
+				if (err) return rejected(err);
+				resolved();
+			});
 
-        // Default if non-existing
-        cache = cache || {};
+		});
+	}
 
-        // Convert date string to Date.
-        if (cache[file] && cache[file].modified) {
-          cache[file].modified = new Date(cache[file].modified);
-        }
+	get(filename) {
+		return new Promise((resolved, rejected) => {
 
-        // Return content
-        cb(null, cache[file]);
+			this._readCache().then((cache) => {
 
-      });
+				// Default if non-existing
+				cache = cache || {};
 
-    },
-    set: function(file, data, cb) {
+				// Convert date string to Date.
+				if (cache[filename] && cache[filename].modified) {
+					cache[filename].modified = new Date(cache[filename].modified);
+				}
 
-      // Read file
-      readCache(function(err, cache) {
-        if (err) return cb(err);
+				// Return content
+				resolved(cache[filename]);
 
-        // Create cache if non-existing
-        cache = cache || {};
+			}, rejected);
 
-        // Add data
-        cache[file] = data;
+		});
+	}
 
-        // To JSON
-        var json;
-        try {
-          json = JSON.stringify(cache);
-        } catch(err) {
-          return cb(err);
-        }
+	set(filename, data) {
+		return new Promise((resolved, rejected) => {
 
-        // Write JSON to file
-        fs.writeFile(cacheFile, json, { encoding: 'utf8' }, function(err) {
-          if (err) return cb(err);
+			// Read file
+			this._readCache().then((cache) => {
 
-          // Return
-          cb();
-        });
+				// Add data
+				cache[filename] = data;
+				
+				this._writeCache(cache).then(resolved, rejected);
 
-      });
+			}, rejected);
 
-    }
-  };
+		});
+	}
 
-};
+	invalidate(filename) {
+		return new Promise((resolved, rejected) => {
+			this._readCache().then((cache) => {
+				delete cache[filename];
+				this._writeCache().then(resolved, rejected);
+			}, rejected);
+		});
+	}
+
+}
+
+exports = module.exports = FileSystemCache;

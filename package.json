@@ -1,7 +1,7 @@
 {
-  "name": "smart-static-fs-cache",
-  "version": "1.0.2",
-  "description": "File system cache engine for smart-static.",
+  "name": "@donotjs/donot-cache-filesystem.",
+  "version": "1.0.0",
+  "description": "File system cache engine for donot.",
   "author": "Kristian Trenskow <trenskow@me.com>",
   "main": "index.js",
   "repository": {
@@ -9,6 +9,7 @@
     "url": "https://github.com/donotjs/smart-static-fs-cache"
   },
   "dependencies": {
+    "@donotjs/donot-cache": "^1.0.0",
     "mkdirp": "^0.5.1"
   },
   "devDependencies": {
