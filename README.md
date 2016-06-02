@@ -13,10 +13,10 @@ Usage: `fsCache(cacheDir, options)`
 
 		var http = require('http'),
 		    donot = require('donot'),
-		    fsCache = require('donot-cache-filesystem');
+		    FileSystemCache = require('donot-cache-filesystem');
 
 		var server = http.createServer(donot(__dirname + '/public', {
-			cache: fsCache(yourCacheDir, {
+			cache: new FileSystemCache(yourCacheDir, {
 				createDirectory: false
 			})
 		));
