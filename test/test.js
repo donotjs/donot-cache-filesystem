@@ -41,13 +41,13 @@ describe('cache', () => {
   });
 
   it ('should come back with no error when setting value', () => {
-    return fsCache.set('test', { modified: new Date() }).should.eventually.be.fulfilled;
+    return fsCache.set('test', { modificationDate: new Date() }).should.eventually.be.fulfilled;
   });
 
   it ('should come back with date when getting cache', () => {
     return fsCache.get('test').then((cache) => {
 			expect(cache).to.be.an('object');
-      expect(cache.modified).to.be.instanceof(Date);
+      expect(cache.modificationDate).to.be.instanceof(Date);
 		}).should.eventually.be.fulfilled;
   });
 
