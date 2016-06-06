@@ -59,8 +59,8 @@ class FileSystemCache extends Cache {
 				cache = cache || {};
 
 				// Convert date string to Date.
-				if (cache[filename] && cache[filename].modified) {
-					cache[filename].modified = new Date(cache[filename].modified);
+				if (cache[filename] && cache[filename].modificationDate) {
+					cache[filename].modificationDate = new Date(cache[filename].modificationDate);
 				}
 
 				// Return content
