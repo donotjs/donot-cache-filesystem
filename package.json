@@ -1,6 +1,6 @@
 {
   "name": "@donotjs/donot-cache-filesystem.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "File system cache for donot.",
   "author": "Kristian Trenskow <trenskow@me.com>",
   "main": "index.js",

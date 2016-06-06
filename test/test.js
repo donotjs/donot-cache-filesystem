@@ -41,12 +41,13 @@ describe('cache', () => {
   });
 
   it ('should come back with no error when setting value', () => {
-    return fsCache.set('test', { modificationDate: new Date() }).should.eventually.be.fulfilled;
+    return fsCache.set('test', { data: new Buffer('This is my buffer'), modificationDate: new Date() }).should.eventually.be.fulfilled;
   });
 
-  it ('should come back with date when getting cache', () => {
+  it ('should come back with correct type when getting cache', () => {
     return fsCache.get('test').then((cache) => {
 			expect(cache).to.be.an('object');
+			expect(cache.data).to.be.instanceOf(Buffer);
       expect(cache.modificationDate).to.be.instanceof(Date);
 		}).should.eventually.be.fulfilled;
   });
